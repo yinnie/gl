@@ -1,0 +1,3 @@
+In file included from /Users/yinliu/Documents/openFrameworks0071/opengl_learn/GL_sketches/particles/src/particle.cpp:10:
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/GL_sketches/particles/src/particle.h:10:1: error: unterminated #ifndef
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/GL_sketches/particles/src/particle.cpp:13: error: 'Particle' has not been declared
