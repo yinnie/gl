@@ -10,13 +10,14 @@
 #ifndef PARTICLES_PARTICLESYSTEM_h
 #define PARTICLES_PARTICLESYSTEM_h
 #include "particle.h"
-#define MAX_PARTICLES 100
+#define MAX_PARTICLES 50
+#include "ofMain.h"
 
 class particleSystem {
 
 public:
 	
-	void setup();
+	void setup(int depth);
 	void update();
 	void drawPoints();
 	void drawVA();

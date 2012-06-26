@@ -129,7 +129,7 @@ void testApp::draw(){
 		//draw a ground surface 
 		GLfloat step1;
 		GLfloat step2;
-		GLfloat step;
+	    GLfloat step;
 		int count = 0;
 		glShadeModel(GL_FLAT);
 		

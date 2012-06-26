@@ -26,7 +26,8 @@ class testApp : public ofBaseApp{
 	bool va;
 	ofCamera camera;
 	ofVec3f center;
-	
+	void drawCeiling();
+	float depth;
 	
 		
 };

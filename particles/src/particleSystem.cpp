@@ -9,14 +9,14 @@
 
 #include "particleSystem.h"
 
-void particleSystem::setup() {
+void particleSystem::setup(int depth) {
 	
 	particles.resize(100);
 	
 	for (int i = 0; i< particles.size(); i++) {
 		
 		Particle &p = particles[i];  //p is declared as a refenrence variable..similar to pointer
-		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight(),ofRandom(-1000,0));
+		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight(),ofRandom(depth,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
 		p.setup();  // DONT FORGET!!!   initiate radius..
@@ -38,20 +38,23 @@ void particleSystem:: update() {
 		
 		p.force.set(0, 0, 0); //set the force to be zero at every loop
 		
-		if (p.pos.y >0) {
-			p.force.y+=0.01;
-			p.force.z+=ofRandom(-0.01, 0.01);
-			p.force.x+=ofRandom(-0.1, 0.1);
-			
+		if (p.pos.y > 0 + p.radius) {
+			p.force.y+=0.015;
+			//p.force.z+=ofRandom(-0.01, 0.01);
+			float noiseAmount = 0.1;
+			float noiseStep = 200;
+			float t = ofGetElapsedTimef();
+			p.force.x += noiseAmount * ofSignedNoise( t *noiseStep);
+			//p.force.x += ofNoise(t*0.001);
 			p.vel+=p.force;
 			p.pos-=p.vel;
 			cout << p.pos.y << endl;
 		}
 		
-		else if (p.pos.y <=0) {
-			p.pos.y = 0;
+		else if (p.pos.y <=0 + p.radius) {
+			p.pos.y = 0 + p.radius;
 			p.pos.z+=ofRandom(-0.2, 0.3);
-			p.pos.x+=ofRandom(-0.3, 0.2);
+			p.pos.x+=ofRandom(-0.1, 0.1);
 
 		}
 		 
@@ -61,7 +64,7 @@ void particleSystem:: update() {
 	//add new particles every frame
 	for (int i= 0; i < numNewParticles; i++) {
 		Particle &p = particles[i];
-		p.pos.set(ofRandom(ofGetWidth()),ofGetHeight(),ofRandom(-1000,0));
+		p.pos.set(ofRandom(ofGetWidth()),ofGetHeight(),ofRandom(depth,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
 		particles.push_back(p);
@@ -80,8 +83,8 @@ void particleSystem:: draw() {
 	for (int i = 0; i < particles.size(); i++) {
 		
 		img.bind();
-		//ofFill();
-		//ofSetColor(255, 155, 0);
+		
+		ofSetColor(250, 132, 201,0.5);
 				Particle & p = particles[i];
 		
         ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);

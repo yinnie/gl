@@ -8,21 +8,21 @@ void testApp::setup(){
 	ofSetVerticalSync(TRUE);
     ofBackground(0, 0, 0);	
     center = ofVec3f (ofGetWidth()/2, ofGetHeight()/2, 0);
-	
-	ps.setup();
+	depth = -2000;
+	ps.setup(depth);
 	
     va = false;
 	
 	//setting up the light
 	glEnable(GL_LIGHTING);
-    GLfloat ambientlight[] = {1.0f, 1.0f, 1.0f, 1.0f};
-	GLfloat diffuselight[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat ambientlight[] = {0.5, 0.5, 0.5, 1.0};
+	GLfloat diffuselight[] = {1.0, 0.4, 0.8, 1.0};
 	GLfloat specularlight[] = {1.0f, 1.0f, 1.0f, 1.0f};
-	GLfloat spotDir[] = {0,0,-1.0f};
+	GLfloat spotDir[] = {0,-1,-1.0f};
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientlight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuselight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specularlight);
-	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 100.0f);
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 60.0f);
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotDir);	
 	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientlight);  //one global light
     
@@ -41,23 +41,23 @@ void testApp::draw(){
 	//camera.begin();
 	
 	//enable light0
-	GLfloat lightPos [] = {ofGetWidth()/2, ofGetHeight()/2-400, -1000};
+	GLfloat lightPos [] = {ofGetWidth()/2, ofGetHeight()/4, 0};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	glEnable(GL_LIGHT0);
 			
 	//define material:  silver
-	GLfloat ambient[] = {0.19225, 0.19225, 0.19225, 1.0};
-	GLfloat diffuse[] = {0.50754,  0.50754,  0.50754, 1.0};
-	GLfloat specular[] = {0.508273, 0.508273, 0.508273,1.0}; //specular reflectance of the material
-	GLfloat shininess = 51.2;
+	GLfloat ambient[] = {0, 0, 0, 1.0};
+	GLfloat diffuse[] = {0.5,  0.5,  0.7, 1.0};
+	GLfloat specular[] = {0.7, 0.6, 0.6, 1.0}; //specular reflectance of the material
+	GLfloat shininess = 32;
 	
-	//glEnable(GL_COLOR_MATERIAL);
-//    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	
-	glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-    glMateriali(GL_FRONT, GL_SHININESS, shininess);
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+//	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+//	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+//  glMateriali(GL_FRONT, GL_SHININESS, shininess);
 
 
 	//if (va) ps.drawVA();
@@ -65,6 +65,7 @@ void testApp::draw(){
 	
 	ps.draw();
 	
+	drawCeiling();
 	
 	glDisable(GL_DEPTH_TEST);
 	
@@ -80,6 +81,20 @@ void testApp::draw(){
 			  
 void testApp::update(){
 	ps.update();
+	
+}
+
+void testApp::drawCeiling() {
+	
+	glBegin(GL_QUADS);             //quads are CLOCKWISE 
+	ofSetColor(225,0.5); 
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0, depth);
+		glVertex3f(ofGetWidth(), 0, depth);
+		glVertex3f(ofGetWidth(), 0, 0);
+		
+		
+	glEnd();
 	
 }
 
