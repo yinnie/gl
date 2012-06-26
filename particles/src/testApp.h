@@ -24,6 +24,8 @@ class testApp : public ofBaseApp{
 	particleSystem ps; 
 	ofImage img;
 	bool va;
+	ofCamera camera;
+	ofVec3f center;
 	
 	
 		

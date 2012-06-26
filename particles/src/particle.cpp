@@ -11,6 +11,11 @@
 
 
 void Particle:: setup() {
-	
-
+	radius = ofRandom(50);
+		
 }
+
+void Particle:: draw() {
+	
+}
+

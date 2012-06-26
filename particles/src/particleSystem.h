@@ -10,7 +10,7 @@
 #ifndef PARTICLES_PARTICLESYSTEM_h
 #define PARTICLES_PARTICLESYSTEM_h
 #include "particle.h"
-#define MAX_PARTICLES  10
+#define MAX_PARTICLES 100
 
 class particleSystem {
 
@@ -20,10 +20,11 @@ public:
 	void update();
 	void drawPoints();
 	void drawVA();
+	void draw();
 	
 	vector<Particle> particles;
 	int numNewParticles;
-
+    ofImage img;
 
 
 };

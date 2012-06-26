@@ -11,17 +11,21 @@
 
 void particleSystem::setup() {
 	
-	particles.resize(10);
+	particles.resize(100);
 	
 	for (int i = 0; i< particles.size(); i++) {
 		
 		Particle &p = particles[i];  //p is declared as a refenrence variable..similar to pointer
-		p.pos.set(ofRandom(ofGetWidth()),ofRandom(ofGetHeight()),ofRandom(-2000,0));
+		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight(),ofRandom(-1000,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
+		p.setup();  // DONT FORGET!!!   initiate radius..
 	}
 	
 	numNewParticles = 1;
+	ofDisableArbTex();  //dont forget this when applying 2D texture!!
+	img.loadImage("grad.png");
+
 }
 
 
@@ -34,18 +38,30 @@ void particleSystem:: update() {
 		
 		p.force.set(0, 0, 0); //set the force to be zero at every loop
 		
-		p.force.z+=0.01;
-		p.force.y+=ofRandom(-0.01, 0.01);
-		p.force.x+=ofRandom(-0.01, 0.01);
+		if (p.pos.y >0) {
+			p.force.y+=0.01;
+			p.force.z+=ofRandom(-0.01, 0.01);
+			p.force.x+=ofRandom(-0.1, 0.1);
+			
+			p.vel+=p.force;
+			p.pos-=p.vel;
+			cout << p.pos.y << endl;
+		}
 		
-		p.vel+=p.force*0.5;
-		p.pos+=p.vel*0.5;
+		else if (p.pos.y <=0) {
+			p.pos.y = 0;
+			p.pos.z+=ofRandom(-0.2, 0.3);
+			p.pos.x+=ofRandom(-0.3, 0.2);
+
+		}
+		 
 	}
 	
+	/*
 	//add new particles every frame
 	for (int i= 0; i < numNewParticles; i++) {
 		Particle &p = particles[i];
-		p.pos.set(ofRandom(ofGetWidth()),ofRandom(ofGetHeight()),ofRandom(-3000,0));
+		p.pos.set(ofRandom(ofGetWidth()),ofGetHeight(),ofRandom(-1000,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
 		particles.push_back(p);
@@ -54,11 +70,27 @@ void particleSystem:: update() {
 			particles.pop_back();
 		}
 	}
-	
+	*/
 	
 }
 
+void particleSystem:: draw() {
+	
+
+	for (int i = 0; i < particles.size(); i++) {
+		
+		img.bind();
+		//ofFill();
+		//ofSetColor(255, 155, 0);
+				Particle & p = particles[i];
+		
+        ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);
+		img.unbind();
+	}
+
+}
 void particleSystem:: drawPoints() {
+	
 	
 	glEnable(GL_POINT_SPRITE);
 	glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
@@ -73,7 +105,6 @@ void particleSystem:: drawPoints() {
 	     glEnd();
 	
 	glDisable(GL_POINT_SPRITE);
-	
     
 }
 
@@ -100,5 +131,7 @@ void particleSystem:: drawVA() {
 	
 	glDisable(GL_POINT_SPRITE);
 }
+
+
 
 

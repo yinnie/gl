@@ -17,11 +17,12 @@ class Particle {
 	public :
 	        
 	void setup();
+	void draw();
 	
 	ofVec3f pos;
 	ofVec3f vel;
 	ofVec3f force;
-
+	int radius;
 
 };
 

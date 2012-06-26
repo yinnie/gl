@@ -79,7 +79,7 @@ void testApp::draw(){
 		glScalef(1.0f, -1.0f, 1.0f);
 		
 		//sphere
-		ofSetColor(150, 150, 0);
+		//ofSetColor(0, 0, 255);
 		ofSphere(0, radius, 0, radius);
 		
 		//top 
