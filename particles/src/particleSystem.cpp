@@ -15,15 +15,15 @@ void particleSystem::setup(int depth) {
 	
 	for (int i = 0; i< particles.size(); i++) {
 		
-		Particle &p = particles[i];  //p is declared as a refenrence variable..similar to pointer
+		Particle &p = particles[i];  
 		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight(),ofRandom(depth,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
-		p.setup();  // DONT FORGET!!!   initiate radius..
+		p.setup();  // initiate radius..
 	}
 	
 	numNewParticles = 1;
-	ofDisableArbTex();  //dont forget this when applying 2D texture!!
+	ofDisableArbTex();  //needed when applying 2D texture
 	img.loadImage("grad.png");
 
 }

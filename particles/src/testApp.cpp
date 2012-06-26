@@ -1,7 +1,5 @@
 #include "testApp.h"
 
-//first a particle system of balloons
-
 //--------------------------------------------------------------
 void testApp::setup(){
 	

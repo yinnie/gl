@@ -20,14 +20,14 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-	
-	particleSystem ps; 
-	ofImage img;
-	bool va;
-	ofCamera camera;
-	ofVec3f center;
-	void drawCeiling();
-	float depth;
+		void drawCeiling();
+		
+	    particleSystem ps; 
+		ofImage img;
+		bool va;
+		ofCamera camera;
+		ofVec3f center;
+		float depth;
 	
 		
 };
