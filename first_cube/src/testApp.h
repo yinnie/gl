@@ -11,11 +11,13 @@ class testApp : public ofBaseApp{
 		void draw();
 		void debugDraw();
 		
-	int radius;
-	ofVec3f center;
-	    float rotation;
-	bool bDrawWireframe;
-	float angle;
+		int radius;
+		ofVec3f center;
+			float rotation;
+		bool bDrawWireframe;
+		float angle;
+	    int coneHeight, depth;
+	ofShader shader;
 	
 		void keyPressed(int key);
 		void keyReleased(int key);
