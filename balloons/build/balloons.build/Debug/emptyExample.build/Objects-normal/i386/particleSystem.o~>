@@ -1,1 +1,3 @@
-i686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp: In member function 'void particleSystem::drawVao()':
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp:111: error: 'vbo' was not declared in this scope
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp:116: error: 'vertexData' was not declared in this scope

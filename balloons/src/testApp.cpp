@@ -32,7 +32,14 @@ void testApp::setup(){
     glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	
-	shader.load("shaders/helloWorld");
+	//shader.load("shaders/helloWorld");
+	//since we want to bind data to attribute index, which has to be done before linkProgram, we setup shaders manually
+	shader.setupShaderFromFile(GL_VERTEX_SHADER, "balloon");
+	shader.setupShaderFromFile(GL_FRAGMENT_SHADER, "balloon");
+	glBindAttribLocation(shader, 0, "in_position");
+	glBindAttribLocation(shader, 1, "in_color");
+	shader.linkProgram();
+	
 //	ofDisableArbTex();  
 //	img.loadImage("grad.png");
 //	ofEnableAlphaBlending();  //perhaps always good to have when using png images
@@ -46,18 +53,21 @@ void testApp::draw(){
 	glEnable(GL_DEPTH_TEST);
 	
 	//camera.begin();
-	ofSetColor(255, 255, 0, 50);
+	//ofSetColor(255, 255, 0, 50);
 	
-	//shader.begin();
-//	
-//	shader.setUniform1f("time", ofGetElapsedTimef());
+	shader.begin();
+
+	//shader.setUniform1f("time", ofGetElapsedTimef());
 	
 	//ofEnablePointSprites();
 //    img.getTextureReference().bind();
-	ps.drawVbo();  //ps.vbo.draw()?? will work?
+	
+	ps.drawVao();  //ps.vbo.draw()?? will work?
+	
+	
 //	img.getTextureReference().unbind();
 //	ofDisablePointSprites();
-//	shader.end();
+	shader.end();
 	
 	
 	/* lights 
@@ -85,15 +95,14 @@ void testApp::draw(){
 	*/   //end of lights
 	
 	//ps.draw();
-//	
-//	drawCeiling();
+	
+	//drawCeiling();
     
 	//if (va) ps.drawVA();
 //    else ps.drawPoints();
 
 	
 	glDisable(GL_DEPTH_TEST);
-	
     glDisable(GL_LIGHTING);
 	
 	//camera.end();

@@ -22,14 +22,16 @@ public:
 	void drawPoints();
 	void drawVA();
 	void draw();
-	void drawVbo();
+	void drawVao();
 	
 	vector<Particle> particles;
 	int numNewParticles;
     ofImage img;
-    ofVbo vbo;    
-	ofVec3f particlePos[MAX_PARTICLES]; 
-	ofFloatColor particleColor[MAX_PARTICLES]; 
+    
+	GLuint vao;             //handle for vao
+	GLuint VBO[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
+	
+	
 };
 
 

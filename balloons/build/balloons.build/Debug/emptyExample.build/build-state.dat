@@ -1,18 +1,12 @@
 TemptyExample
 v7
-r0
-t362541178.039465
+r3
+t362610395.966389
 cCheck dependencies
 cProcessInfoPlistFile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin//emptyExampleDebug.app/Contents/Info.plist openFrameworks-Info.plist
 cProcessPCH++ /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h.gch /System/Library/Frameworks/Carbon.framework/Headers/Carbon.h normal i386 c++ com.apple.compilers.gcc.4_2
 cCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp normal i386 c++ com.apple.compilers.gcc.4_2
 cCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp normal i386 c++ com.apple.compilers.gcc.4_2
-cCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/particleSystem.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp normal i386 c++ com.apple.compilers.gcc.4_2
-cCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/particle.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particle.cpp normal i386 c++ com.apple.compilers.gcc.4_2
-cLd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin//emptyExampleDebug.app/Contents/MacOS/emptyExampleDebug normal i386
-cPhaseScriptExecution "Run Script" /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Script-E4B6FFFD0C3F9AB9008CF71C.sh
-cPBXCp bin/emptyExampleDebug.app/Contents/Frameworks/GLUT.framework ../../../libs/glut/lib/osx/GLUT.framework
-cTouch /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin//emptyExampleDebug.app
 
 N/Developer/usr/include/gcc/darwin/4.2/stdint.h
 c000000004CC3D2C2000000000000190C
@@ -1454,8 +1448,8 @@ t1340819750
 s581
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o
-t1340847926
-s286488
+t2
+s0
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/particle.o
 t1340847851
@@ -1466,8 +1460,8 @@ t1340848049
 s245236
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o
-t1340848377
-s292016
+t2
+s0
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Script-E4B6FFFD0C3F9AB9008CF71C.sh
 c000000004FEB49260000000000000114
@@ -1488,28 +1482,28 @@ s249
 i"particle.h"
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particle.h
-c000000004FEBB6E60000000000000178
-t1340847846
-s376
+c000000004FECAD410000000000000173
+t1340910913
+s371
 i"ofMain.h"
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp
-c000000004FEBB7AC0000000000000ECD
-t1340848044
-s3789
+c000000004FECAE2F0000000000001100
+t1340911151
+s4352
 i"particleSystem.h"
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.h
-c000000004FEBB72E000000000000025D
-t1340847918
-s605
+c000000004FEC7F280000000000000292
+t1340899112
+s658
 i"particle.h"
 i"ofMain.h"
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp
-c000000004FEBB93700000000000011F7
-t1340848439
-s4599
+c000000004FECC59F0000000000001296
+t1340917151
+s4758
 i"testApp.h"
 
 N/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.h
@@ -1595,12 +1589,12 @@ s631
 
 CCheck dependencies
 r0
-lSLF07#2@18"Check dependencies362541175#362541175#0(0"0(0#1#0"8623388864#0"0#
+lSLF07#2@18"Check dependencies362610392#362610392#0(0"0(0#1#0"8610981216#0"0#
 
 CCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp normal i386 c++ com.apple.compilers.gcc.4_2
-s362540724.307396
-e362540726.762604
-r1
+s362610392.581373
+e362610395.865698
+r0
 xCompileC
 xbuild/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o
 x/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp
@@ -1608,8 +1602,7 @@ xnormal
 xi386
 xc++
 xcom.apple.compilers.gcc.4_2
-oi686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done
-lSLF07#2@88"Compile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp362540724#362540726#0(92"i686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done0(0#0#80"/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp8619430368#2166"    cd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -mfix-and-continue -ftree-vectorize -msse3 -mssse3 -Wno-deprecated-declarations -Wno-invalid-offsetof -gdwarf-2 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/emptyExampleDebug.hmap -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/../../../libs/glut/lib/osx -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin/include -I../../../libs/openFrameworks -I../../../libs/openFrameworks/3d -I../../../libs/openFrameworks/app -I../../../libs/openFrameworks/communication -I../../../libs/openFrameworks/events -I../../../libs/openFrameworks/gl -I../../../libs/openFrameworks/graphics -I../../../libs/openFrameworks/math -I../../../libs/openFrameworks/sound -I../../../libs/openFrameworks/types -I../../../libs/openFrameworks/utils -I../../../libs/openFrameworks/video -I../../../libs/poco/include -I../../../libs/freetype/include -I../../../libs/freetype/include/freetype2 -I../../../libs/fmodex/include -I../../../libs/glew/include -I../../../libs/FreeImage/include -I../../../libs/tess2/include -I../../../libs/cairo/include/cairo -I../../../libs/rtAudio/include -Isrc -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources/i386 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources -D__MACOSX_CORE__ -lpthread -mtune=native -include /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h -c /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp -o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o0#
+lSLF07#2@88"Compile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp362610392#362610395#0(0"0(0#0#80"/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp7579395863591677952#2166"    cd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -mfix-and-continue -ftree-vectorize -msse3 -mssse3 -Wno-deprecated-declarations -Wno-invalid-offsetof -gdwarf-2 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/emptyExampleDebug.hmap -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/../../../libs/glut/lib/osx -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin/include -I../../../libs/openFrameworks -I../../../libs/openFrameworks/3d -I../../../libs/openFrameworks/app -I../../../libs/openFrameworks/communication -I../../../libs/openFrameworks/events -I../../../libs/openFrameworks/gl -I../../../libs/openFrameworks/graphics -I../../../libs/openFrameworks/math -I../../../libs/openFrameworks/sound -I../../../libs/openFrameworks/types -I../../../libs/openFrameworks/utils -I../../../libs/openFrameworks/video -I../../../libs/poco/include -I../../../libs/freetype/include -I../../../libs/freetype/include/freetype2 -I../../../libs/fmodex/include -I../../../libs/glew/include -I../../../libs/FreeImage/include -I../../../libs/tess2/include -I../../../libs/cairo/include/cairo -I../../../libs/rtAudio/include -Isrc -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources/i386 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources -D__MACOSX_CORE__ -lpthread -mtune=native -include /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h -c /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/main.cpp -o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/main.o2#
 
 CCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/particle.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particle.cpp normal i386 c++ com.apple.compilers.gcc.4_2
 s362540649.171988
@@ -1640,9 +1633,9 @@ oi686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because link
 lSLF07#2@98"Compile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp362540845#362540849#0(92"i686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done0(0#0#90"/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp8626112032#2186"    cd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -mfix-and-continue -ftree-vectorize -msse3 -mssse3 -Wno-deprecated-declarations -Wno-invalid-offsetof -gdwarf-2 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/emptyExampleDebug.hmap -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/../../../libs/glut/lib/osx -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin/include -I../../../libs/openFrameworks -I../../../libs/openFrameworks/3d -I../../../libs/openFrameworks/app -I../../../libs/openFrameworks/communication -I../../../libs/openFrameworks/events -I../../../libs/openFrameworks/gl -I../../../libs/openFrameworks/graphics -I../../../libs/openFrameworks/math -I../../../libs/openFrameworks/sound -I../../../libs/openFrameworks/types -I../../../libs/openFrameworks/utils -I../../../libs/openFrameworks/video -I../../../libs/poco/include -I../../../libs/freetype/include -I../../../libs/freetype/include/freetype2 -I../../../libs/fmodex/include -I../../../libs/glew/include -I../../../libs/FreeImage/include -I../../../libs/tess2/include -I../../../libs/cairo/include/cairo -I../../../libs/rtAudio/include -Isrc -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources/i386 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources -D__MACOSX_CORE__ -lpthread -mtune=native -include /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h -c /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.cpp -o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/particleSystem.o0#
 
 CCompileC build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp normal i386 c++ com.apple.compilers.gcc.4_2
-s362541175.058849
-e362541177.334355
-r1
+s362610392.634209
+e362610395.966344
+r0
 xCompileC
 xbuild/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o
 x/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp
@@ -1650,8 +1643,7 @@ xnormal
 xi386
 xc++
 xcom.apple.compilers.gcc.4_2
-oi686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done
-lSLF07#2@91"Compile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp362541175#362541177#0(92"i686-apple-darwin10-gcc-4.2.1: -lpthread: linker input file unused because linking not done0(0#0#83"/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp8625008320#2172"    cd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -mfix-and-continue -ftree-vectorize -msse3 -mssse3 -Wno-deprecated-declarations -Wno-invalid-offsetof -gdwarf-2 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/emptyExampleDebug.hmap -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/../../../libs/glut/lib/osx -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin/include -I../../../libs/openFrameworks -I../../../libs/openFrameworks/3d -I../../../libs/openFrameworks/app -I../../../libs/openFrameworks/communication -I../../../libs/openFrameworks/events -I../../../libs/openFrameworks/gl -I../../../libs/openFrameworks/graphics -I../../../libs/openFrameworks/math -I../../../libs/openFrameworks/sound -I../../../libs/openFrameworks/types -I../../../libs/openFrameworks/utils -I../../../libs/openFrameworks/video -I../../../libs/poco/include -I../../../libs/freetype/include -I../../../libs/freetype/include/freetype2 -I../../../libs/fmodex/include -I../../../libs/glew/include -I../../../libs/FreeImage/include -I../../../libs/tess2/include -I../../../libs/cairo/include/cairo -I../../../libs/rtAudio/include -Isrc -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources/i386 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources -D__MACOSX_CORE__ -lpthread -mtune=native -include /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h -c /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp -o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o0#
+lSLF07#2@91"Compile /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp362610392#362610395#0(0"0(0#0#83"/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp8621367136#2172"    cd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -mfix-and-continue -ftree-vectorize -msse3 -mssse3 -Wno-deprecated-declarations -Wno-invalid-offsetof -gdwarf-2 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/emptyExampleDebug.hmap -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin -F/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/../../../libs/glut/lib/osx -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin/include -I../../../libs/openFrameworks -I../../../libs/openFrameworks/3d -I../../../libs/openFrameworks/app -I../../../libs/openFrameworks/communication -I../../../libs/openFrameworks/events -I../../../libs/openFrameworks/gl -I../../../libs/openFrameworks/graphics -I../../../libs/openFrameworks/math -I../../../libs/openFrameworks/sound -I../../../libs/openFrameworks/types -I../../../libs/openFrameworks/utils -I../../../libs/openFrameworks/video -I../../../libs/poco/include -I../../../libs/freetype/include -I../../../libs/freetype/include/freetype2 -I../../../libs/fmodex/include -I../../../libs/glew/include -I../../../libs/FreeImage/include -I../../../libs/tess2/include -I../../../libs/cairo/include/cairo -I../../../libs/rtAudio/include -Isrc -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources/i386 -I/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/DerivedSources -D__MACOSX_CORE__ -lpthread -mtune=native -include /var/folders/Ar/ArwGcshsHt4vQJ9HLtRX2E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/Carbon-assfjgxjbrtrmvgeadskpbpmfbag/Carbon.h -c /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp -o /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/build/balloons.build/Debug/emptyExample.build/Objects-normal/i386/testApp.o2#
 
 CLd /Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/bin//emptyExampleDebug.app/Contents/MacOS/emptyExampleDebug normal i386
 s362541177.334555

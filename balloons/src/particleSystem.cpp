@@ -21,18 +21,8 @@ void particleSystem::setup(int depth) {
 		p.force.set(0,0,0);
 		p.setup();  // initiate radius when drawing spheres
 		
-		p.color.set(ofColor::fromHsb(ofRandom(65,100), 255, 255));
-	    
-		particlePos[i][0] = p.pos.x;
-		particlePos[i][1] = p.pos.y;
-		particlePos[i][2] = p.pos.z;
-		particleColor[i].r = p.color.r;
-		particleColor[i].g = p.color.g;
-		particleColor[i].b = p.color.b;
-					
-		vbo.setVertexData(particlePos, particles.size(), GL_DYNAMIC_DRAW);
-		vbo.setColorData(particleColor, particles.size(), GL_DYNAMIC_DRAW);
-					
+		p.color.set(ofRandom(50,80), ofRandom(50,80), 30);
+	
      }
 	
 	numNewParticles = 1;
@@ -75,15 +65,6 @@ void particleSystem:: update() {
 
 		}
 		
-		particlePos[i][0] = p.pos.x;
-		particlePos[i][1] = p.pos.y;
-		particlePos[i][2] = p.pos.z;
-		particleColor[i].r = p.color.r;
-		particleColor[i].g = p.color.g;
-		particleColor[i].b = p.color.b;
-			
-        vbo.updateVertexData(particlePos, particles.size());
-		vbo.updateColorData(particleColor, particles.size());
 	}
 	
 	/*
@@ -103,10 +84,49 @@ void particleSystem:: update() {
 	
 }
 
-void particleSystem:: drawVbo() {
+void particleSystem:: drawVao() {
 	
-	 vbo.draw(GL_DYNAMIC_DRAW, 1, particles.size());   //use draw vs. drawElements coz we don't have any indices data
-
+	//do all the GL stuff in draw
+	
+	GLfloat vertexdata[particles.size()][3];
+	GLfloat colordata[particles.size()][3];
+	
+	for (int i = 0; i<particles.size(); i++) {
+		Particle &p = particles[i];
+		
+		vertexdata[i][0] = p.pos.x;
+		vertexdata[i][1] = p.pos.y;
+		vertexdata[i][2] = p.pos.z;
+		colordata[i][0] = p.color.x;
+		colordata[i][1] = p.color.y;
+		colordata[i][2] = p.color.z;
+		
+	}
+	
+	//make vao 
+	glGenVertexArrays(1, &vao);   //use & because the parameter needed is a pointer 
+	//activate vao
+	glBindVertexArray(vao);
+	//make vbos
+	glGenBuffers(2, vbo);         //vbo is already a pointer since it is an array   
+	
+	//activate vbos..i.e. what type of vbo is this?
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+	//copy data into vbo
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*particles.size(), vertexData, GL_DYNAMIC_DRAW);
+	//point this data to an attribute index..
+	//arguments: what index, no. of components per attribute, type, normalise as integers?, stride, displacement to first element in array)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, 0); 
+	//enable vao array 
+    glEnableVertexAttribArray(0);
+	
+	
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*particles.size(), colordata, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+	
+	
 }
 
 void particleSystem:: draw() {
@@ -137,6 +157,7 @@ void particleSystem:: drawPoints() {
 }
 
 void particleSystem:: drawVA() {
+	
 	glEnable(GL_POINT_SPRITE);
     glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
 	ofSetColor(200, 200, 0, 0.3);
