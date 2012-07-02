@@ -24,11 +24,13 @@ class testApp : public ofBaseApp{
 		
 	    particleSystem ps; 
 		ofImage img;
-		bool va;
+		bool drawVa, drawVao, drawPoints;
 		ofCamera camera;
 		ofVec3f center;
 		float depth;
 	ofShader shader;
+	void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c);
+	void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d);
 	
 		
 };

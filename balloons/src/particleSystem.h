@@ -10,7 +10,7 @@
 #ifndef PARTICLES_PARTICLESYSTEM_h
 #define PARTICLES_PARTICLESYSTEM_h
 #include "particle.h"
-#define MAX_PARTICLES 50
+#define MAX_PARTICLES 100
 #include "ofMain.h"
 
 class particleSystem {
@@ -29,9 +29,9 @@ public:
     ofImage img;
     
 	GLuint vao;             //handle for vao
-	GLuint VBO[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
+	GLuint vbo[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
 	
-	
+	ofShader shader;
 };
 
 

@@ -27,6 +27,8 @@ void particleSystem::setup(int depth) {
 	
 	numNewParticles = 1;
 	
+	shader.load("shaders/brick.vs", "shaders/brick.fs");
+	
 }
 
 
@@ -46,7 +48,7 @@ void particleSystem:: update() {
 		p.force.set(0, 0, 0); //set the force to be zero at every loop
 		
 		if (p.pos.y > 0 + p.radius) {
-			p.force.y+=0.015;
+			p.force.y+=0.015*15/p.radius;
 			//p.force.z+=ofRandom(-0.01, 0.01);
 			float noiseAmount = 0.1;
 			float noiseStep = 200;
@@ -84,6 +86,35 @@ void particleSystem:: update() {
 	
 }
 
+void particleSystem:: draw() {
+	
+	for (int i = 0; i < particles.size(); i++) {
+		//img.bind();
+		ofSetColor(255, 255, 255);
+		shader.begin();
+		
+		shader.setUniform3f("lightPosition", 0, 300, -400);
+		shader.setUniform3f("BrickColor", 255, 0, 0);
+		shader.setUniform3f("MortarColor", 0, 0, 0);
+		shader.setUniform2f("BrickSize", 0.3, 0.15);
+		shader.setUniform2f("BrickPct", 0.9, 0.85);
+		
+		
+		Particle & p = particles[i];
+		
+        ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);
+		//img.unbind();
+		
+		shader.end();
+	}
+	
+	ofDisableArbTex();  
+	img.loadImage("grad.png");
+	ofEnableAlphaBlending();  
+	
+}
+
+
 void particleSystem:: drawVao() {
 	
 	//do all the GL stuff in draw
@@ -113,7 +144,7 @@ void particleSystem:: drawVao() {
 	//activate vbos..i.e. what type of vbo is this?
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 	//copy data into vbo
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*particles.size(), vertexData, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*particles.size(), vertexdata, GL_DYNAMIC_DRAW);
 	//point this data to an attribute index..
 	//arguments: what index, no. of components per attribute, type, normalise as integers?, stride, displacement to first element in array)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, 0); 
@@ -129,20 +160,6 @@ void particleSystem:: drawVao() {
 	
 }
 
-void particleSystem:: draw() {
-	
-	for (int i = 0; i < particles.size(); i++) {
-		
-		img.bind();
-		
-		ofSetColor(250, 132, 201,0.5);
-				Particle & p = particles[i];
-		
-        ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);
-		img.unbind();
-	}
-
-}
 
 void particleSystem:: drawPoints() {
 	

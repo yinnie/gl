@@ -6,44 +6,29 @@ void testApp::setup(){
 	ofSetVerticalSync(TRUE);
     ofBackground(0, 0, 0);	
     center = ofVec3f (ofGetWidth()/2, ofGetHeight()/2, 0);
-	depth = -2000;
+	depth = -1000;
 	ps.setup(depth);
 	
-    va = false;
-	
-	/*  lights 
-	 
-	//setting up the light
-	glEnable(GL_LIGHTING);
-    GLfloat ambientlight[] = {0.5, 0.5, 0.5, 1.0};
-	GLfloat diffuselight[] = {1.0, 0.4, 0.8, 1.0};
-	GLfloat specularlight[] = {1.0f, 1.0f, 1.0f, 1.0f};
-	GLfloat spotDir[] = {0,-1,-1.0f};
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientlight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuselight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specularlight);
-	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 60.0f);
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotDir);	
-	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientlight);  //one global light
-    
-	 */
+    drawVa = false;
+	drawVao = false;
+	drawPoints = false;
 	
 	glShadeModel(GL_SMOOTH);
     glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	
-	//shader.load("shaders/helloWorld");
-	//since we want to bind data to attribute index, which has to be done before linkProgram, we setup shaders manually
-	shader.setupShaderFromFile(GL_VERTEX_SHADER, "balloon");
-	shader.setupShaderFromFile(GL_FRAGMENT_SHADER, "balloon");
-	glBindAttribLocation(shader, 0, "in_position");
-	glBindAttribLocation(shader, 1, "in_color");
-	shader.linkProgram();
 	
-//	ofDisableArbTex();  
-//	img.loadImage("grad.png");
-//	ofEnableAlphaBlending();  //perhaps always good to have when using png images
-
+	if (drawVao) {
+		//since we want to bind data to attribute index, which has to be done before linkProgram, we setup shaders manually
+		//in progress
+		shader.setupShaderFromFile(GL_VERTEX_SHADER, "balloon");   
+		shader.setupShaderFromFile(GL_FRAGMENT_SHADER, "balloon");
+		//glBindAttribLocation(shader, 0, "in_position");
+		//glBindAttribLocation(shader, 1, "in_color");
+		shader.linkProgram();		
+	}
+     
+			
 }
 
 
@@ -53,22 +38,25 @@ void testApp::draw(){
 	glEnable(GL_DEPTH_TEST);
 	
 	//camera.begin();
-	//ofSetColor(255, 255, 0, 50);
+	//ofSetColor(255, 255, 255) ;
 	
-	shader.begin();
-
+	//shader.begin();
 	//shader.setUniform1f("time", ofGetElapsedTimef());
 	
 	//ofEnablePointSprites();
 //    img.getTextureReference().bind();
 	
-	ps.drawVao();  //ps.vbo.draw()?? will work?
-	
-	
+	if (drawVao) { ps.drawVao(); }    //ps.vbo.draw()?? will work?
+	else if (drawVa) {ps.drawVA(); }
+		else if (drawPoints) { ps.drawPoints(); } 
+		else {
+			ps.draw();
+		}
+		
 //	img.getTextureReference().unbind();
 //	ofDisablePointSprites();
-	shader.end();
 	
+	//shader.end();
 	
 	/* lights 
 	
@@ -90,18 +78,10 @@ void testApp::draw(){
 //	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 //	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
 //  glMateriali(GL_FRONT, GL_SHININESS, shininess);
-	
-	 
-	*/   //end of lights
-	
-	//ps.draw();
+	*/   
 	
 	//drawCeiling();
     
-	//if (va) ps.drawVA();
-//    else ps.drawPoints();
-
-	
 	glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
 	
@@ -109,8 +89,7 @@ void testApp::draw(){
 
 	ofSetColor(255, 255, 255);
 	ofDrawBitmapString("fps " + ofToString(ofGetFrameRate(), 2)
-					   + " | useVA " + ofToString(va), 20,20);
-	
+					   + " | useVA " + ofToString(drawVa), 20,20);	
 }
 			  
 void testApp::update(){
@@ -120,23 +99,46 @@ void testApp::update(){
 
 void testApp::drawCeiling() {
 	
-	glBegin(GL_QUADS);             //quads are CLOCKWISE 
-	ofSetColor(225,0.5); 
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 0, depth);
-		glVertex3f(ofGetWidth(), 0, depth);
-		glVertex3f(ofGetWidth(), 0, 0);
-		
-		
-	glEnd();
+
+	glDisable(GL_CULL_FACE);
+	ofMesh mesh;
+
+	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
 	
+	mesh.addColor(ofColor(255,255,255));
+	AddFace(mesh, ofVec3f(0, 0, 0), ofVec3f(0, 0, depth),  ofVec3f(ofGetWidth(), 0, depth),  ofVec3f(ofGetWidth(), 0, 0));
+	
+	/*
+	mesh.addVertex (ofVec3f(0, 0, 0));
+	mesh.addVertex (ofVec3f(0, 0, depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), 0, depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), 0, 0));
+	*/
+	mesh.draw();
+	glEnable(GL_CULL_FACE);
+
 }
+
+void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
+	mesh.addVertex(a);
+	mesh.addVertex(b);
+	mesh.addVertex(c);
+}
+
+void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
+	AddFace(mesh, a, b, c);
+	AddFace(mesh, a, c, d);
+	AddFace(mesh, a, b, d);
+	AddFace(mesh, b, c, d);
+
+}
+
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 	switch (key) {
 		case '1':
-			va = ! va;
+			drawVa= ! drawVa;
 			break;
 		default:
 			break;
