@@ -11,7 +11,7 @@
 
 
 void Particle:: setup() {
-	radius = ofRandom(50);
+	radius = ofRandom(30,35);
 		
 }
 

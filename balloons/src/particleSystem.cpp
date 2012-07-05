@@ -11,7 +11,7 @@
 
 void particleSystem::setup(int depth) {
 	
-	particles.resize(100);
+	particles.resize(50);
 	
 	for (int i = 0; i< particles.size(); i++) {
 		
@@ -26,8 +26,6 @@ void particleSystem::setup(int depth) {
      }
 	
 	numNewParticles = 1;
-	
-	shader.load("shaders/brick.vs", "shaders/brick.fs");
 	
 }
 
@@ -48,22 +46,32 @@ void particleSystem:: update() {
 		p.force.set(0, 0, 0); //set the force to be zero at every loop
 		
 		if (p.pos.y > 0 + p.radius) {
-			p.force.y+=0.015*15/p.radius;
-			//p.force.z+=ofRandom(-0.01, 0.01);
-			float noiseAmount = 0.1;
-			float noiseStep = 200;
-			float t = ofGetElapsedTimef();
-			p.force.x += noiseAmount * ofSignedNoise( t *noiseStep);
-			//p.force.x += ofNoise(t*0.001);
-			p.vel+=p.force;
-			p.pos-=p.vel;
+			
+			float randomNumber = ofRandom(30);
+			if (randomNumber < 10) {
+				p.force.y+=0.0001; 
+			}
+			else if (randomNumber < 15 ){
+				p.force.y+=0.0005;
+			}
+					 else p.force.y+= 0.03;
+
+				//p.force.z+=ofRandom(-0.01, 0.01);
+				float noiseAmount = 0.1;
+				float noiseStep = 200;
+				float t = ofGetElapsedTimef();
+				//p.force.x += noiseAmount * ofSignedNoise( t *noiseStep);
+				//p.force.x += ofNoise(t*0.001);
+				p.vel+=p.force;
+				p.pos-=p.vel;
+				
 			cout << p.pos.y << endl;
 		}
 		
 		else if (p.pos.y <=0 + p.radius) {
 			p.pos.y = 0 + p.radius;
 			p.pos.z+=ofRandom(-0.2, 0.3);
-			p.pos.x+=ofRandom(-0.1, 0.1);
+			//p.pos.x+=ofRandom(-0.1, 0.1);
 
 		}
 		
@@ -89,29 +97,15 @@ void particleSystem:: update() {
 void particleSystem:: draw() {
 	
 	for (int i = 0; i < particles.size(); i++) {
-		//img.bind();
-		ofSetColor(255, 255, 255);
-		shader.begin();
-		
-		shader.setUniform3f("lightPosition", 0, 300, -400);
-		shader.setUniform3f("BrickColor", 255, 0, 0);
-		shader.setUniform3f("MortarColor", 0, 0, 0);
-		shader.setUniform2f("BrickSize", 0.3, 0.15);
-		shader.setUniform2f("BrickPct", 0.9, 0.85);
-		
+	
+		ofSetColor(255, 255, 30, 255);
 		
 		Particle & p = particles[i];
 		
         ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);
-		//img.unbind();
 		
-		shader.end();
 	}
-	
-	ofDisableArbTex();  
-	img.loadImage("grad.png");
-	ofEnableAlphaBlending();  
-	
+		
 }
 
 

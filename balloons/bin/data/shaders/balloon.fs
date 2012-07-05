@@ -1,5 +1,4 @@
 
-
 void main(){
 	//this is the fragment shader
 	//this is where the pixel level drawing happens

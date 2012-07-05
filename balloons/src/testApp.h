@@ -24,7 +24,7 @@ class testApp : public ofBaseApp{
 		
 	    particleSystem ps; 
 		ofImage img;
-		bool drawVa, drawVao, drawPoints;
+	bool drawVa, drawVao, drawPoints, useShader;
 		ofCamera camera;
 		ofVec3f center;
 		float depth;

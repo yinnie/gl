@@ -31,7 +31,7 @@ public:
 	GLuint vao;             //handle for vao
 	GLuint vbo[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
 	
-	ofShader shader;
+
 };
 
 

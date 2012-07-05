@@ -19,6 +19,7 @@ class testApp : public ofBaseApp{
 		float angle;
 	    int coneHeight, depth;
 	ofShader shader;
+	ofEasyCam cam;
 	
 		void keyPressed(int key);
 		void keyReleased(int key);

@@ -12,13 +12,17 @@ void testApp::setup(){
     drawVa = false;
 	drawVao = false;
 	drawPoints = false;
+	useShader = true;
 	
 	glShadeModel(GL_SMOOTH);
     glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
+	ofDisableArbTex();  
+	img.loadImage("grad.png");
+	ofEnableAlphaBlending();  
 	
 	
-	if (drawVao) {
+	if (drawVao) {    //IN PROGRESS
 		//since we want to bind data to attribute index, which has to be done before linkProgram, we setup shaders manually
 		//in progress
 		shader.setupShaderFromFile(GL_VERTEX_SHADER, "balloon");   
@@ -27,7 +31,8 @@ void testApp::setup(){
 		//glBindAttribLocation(shader, 1, "in_color");
 		shader.linkProgram();		
 	}
-     
+	
+	shader.load("shaders/perFragLight.vs", "shaders/perFragLight.fs");	
 			
 }
 
@@ -38,52 +43,34 @@ void testApp::draw(){
 	glEnable(GL_DEPTH_TEST);
 	
 	//camera.begin();
-	//ofSetColor(255, 255, 255) ;
-	
-	//shader.begin();
-	//shader.setUniform1f("time", ofGetElapsedTimef());
-	
+
 	//ofEnablePointSprites();
-//    img.getTextureReference().bind();
+	
+	//ofSetColor(250, 167, 43, 255);
+	if(useShader) {
+		shader.begin();
+		
+	    
+		shader.setUniform1f("time", ofGetElapsedTimef());
+		
+		shader.setUniformTexture("tex0", img, 1);
+		
+		shader.setUniform3f("lightPosition", 600, 300, -400);
+		shader.setUniform3f("BrickColor", 255, 0, 0);
+		shader.setUniform3f("MortarColor", 0, 0, 0);
+		shader.setUniform2f("BrickSize", 0.3, 0.15);
+		shader.setUniform2f("BrickPct", 0.9, 0.85);
+	}
 	
 	if (drawVao) { ps.drawVao(); }    //ps.vbo.draw()?? will work?
 	else if (drawVa) {ps.drawVA(); }
 		else if (drawPoints) { ps.drawPoints(); } 
 		else {
-			ps.draw();
-		}
+			ps.draw();}
 		
-//	img.getTextureReference().unbind();
-//	ofDisablePointSprites();
-	
-	//shader.end();
-	
-	/* lights 
-	
-	//enable light0
-	GLfloat lightPos [] = {ofGetWidth()/2, ofGetHeight()/4, 0};
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	glEnable(GL_LIGHT0);
-			
-	//define material:  silver
-	GLfloat ambient[] = {0, 0, 0, 1.0};
-	GLfloat diffuse[] = {0.5,  0.5,  0.7, 1.0};
-	GLfloat specular[] = {0.7, 0.6, 0.6, 1.0}; //specular reflectance of the material
-	GLfloat shininess = 32;
-	
-	glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	
-	//glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-//	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
-//	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-//  glMateriali(GL_FRONT, GL_SHININESS, shininess);
-	*/   
-	
+	if (useShader) shader.end();
+
 	//drawCeiling();
-    
-	glDisable(GL_DEPTH_TEST);
-    glDisable(GL_LIGHTING);
 	
 	//camera.end();
 

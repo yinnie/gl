@@ -15,7 +15,7 @@ void testApp::setup(){
 	radius = 300;
     depth = -500;
     
-	shader.load("shaders/distort.vs", "shaders/distort.fs");
+	shader.load("shaders/perFragLight.vs", "shaders/perFragLight.fs");
 
 }
 
@@ -23,7 +23,7 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::draw(){
 	
-	
+	cam.begin();
 	
 //	if(bDrawWireframe) ofNoFill();
 //	else ofFill();
@@ -32,7 +32,7 @@ void testApp::draw(){
 	
 	shader.begin();
 	
-	/*
+	
 	//we want to pass in some varrying values to animate our type / color 
 	shader.setUniform1f("timeValX", ofGetElapsedTimef() * 0.1 );
 	shader.setUniform1f("timeValY", -ofGetElapsedTimef() * 0.18 );
@@ -40,9 +40,9 @@ void testApp::draw(){
 	//we also pass in the mouse position 
 	//we have to transform the coords to what the shader is expecting which is 0,0 in the center and y axis flipped. 
 	shader.setUniform2f("mouse", mouseX - ofGetWidth()/2, ofGetHeight()/2-mouseY );
-	*/
 	
-	shader.setUniform3f("lightPosition", 400, 300, -500);
+	
+	shader.setUniform3f("lightPosition", 400, -300, -200);
 	shader.setUniform3f("BrickColor", 255, 0, 0);
 	shader.setUniform3f("MortarColor", 0, 255, 0);
 	shader.setUniform2f("BrickSize", 0.3, 0.15);
@@ -56,12 +56,14 @@ void testApp::draw(){
 //	float x = cos(angle)*radius;
 //	float y = sin(angle)*radius;
 	
-	ofBox(500, 500, -200, 200); 
-	ofSphere(200, 200, -200, 200); 
+	
+	//ofBox(400, 300, -200, 200); 
+	ofSphere(400, 500, -300, 200); 
 	//ofPopMatrix();
 	
 	shader.end();
 
+	cam.end();
 }
 
 void testApp::debugDraw() {

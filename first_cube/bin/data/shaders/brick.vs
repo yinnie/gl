@@ -24,12 +24,14 @@ void main()
     vec3 lightVec   = normalize(lightPosition - ecPosition);
     vec3 reflectVec = reflect(-lightVec, tnorm);
     vec3 viewVec    = normalize(-ecPosition);
-    float diffuse   = max(dot(lightVec, tnorm), 0.0);
+    //float diffuse   = max(dot(lightVec, tnorm), 0.0);
+     float diffuse   = dot(lightVec, tnorm);
     float spec      = 0.0;
 
     if (diffuse > 0.0)
     {
-        spec = max(dot(reflectVec, viewVec), 0.0);
+        //spec = max(dot(reflectVec, viewVec), 0.0);
+        spec = dot(reflectVec, viewVec);
         spec = pow(spec, 16.0);
     }
 
