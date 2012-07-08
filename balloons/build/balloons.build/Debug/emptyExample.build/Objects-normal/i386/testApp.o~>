@@ -1,3 +1,3 @@
-/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp: In member function 'virtual void testApp::setup()':
-/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp:39: error: cannot convert 'ofShader' to 'GLuint' in argument passing
-/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp:40: error: cannot convert 'ofShader' to 'GLuint' in argument passing
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp: In member function 'virtual void testApp::update()':
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/testApp.cpp:92: error: no matching function for call to 'particleSystem::checkBoundary(float&)'
+/Users/yinliu/Documents/openFrameworks0071/opengl_learn/gl/balloons/src/particleSystem.h:26: note: candidates are: void particleSystem::checkBoundary()

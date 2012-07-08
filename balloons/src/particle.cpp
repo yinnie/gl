@@ -11,8 +11,8 @@
 
 
 void Particle:: setup() {
-	radius = ofRandom(30,35);
-		
+	radius = ofRandom(20,25);
+	color = ofVec3f(ofRandom(100,255), ofRandom(255), 50);	
 }
 
 void Particle:: draw() {

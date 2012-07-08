@@ -23,6 +23,7 @@ class Particle {
 	ofVec3f vel;
 	ofVec3f force;
 	ofVec3f color;
+	ofVec3f springForce;
 	int radius;
 
 };

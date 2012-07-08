@@ -6,13 +6,14 @@ void testApp::setup(){
 	ofSetVerticalSync(TRUE);
     ofBackground(0, 0, 0);	
     center = ofVec3f (ofGetWidth()/2, ofGetHeight()/2, 0);
-	depth = -1000;
+	depth = -600;
 	ps.setup(depth);
 	
     drawVa = false;
 	drawVao = false;
 	drawPoints = false;
 	useShader = true;
+	go = false;
 	
 	glShadeModel(GL_SMOOTH);
     glFrontFace(GL_CCW);
@@ -41,12 +42,13 @@ void testApp::setup(){
 void testApp::draw(){
 	
 	glEnable(GL_DEPTH_TEST);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	
 	//camera.begin();
 
-	//ofEnablePointSprites();
+	//ofEnablePointSprites();	
 	
-	//ofSetColor(250, 167, 43, 255);
 	if(useShader) {
 		shader.begin();
 		
@@ -68,43 +70,81 @@ void testApp::draw(){
 		else {
 			ps.draw();}
 		
-	if (useShader) shader.end();
-
-	//drawCeiling();
+    shader.end();
+    
 	
+	ofSetColor(255, 255, 255);
+	
+	drawCeiling();
+	
+	ofSetColor(150);
+	drawRoom();
+		
+	glEnable(GL_CULL_FACE);
 	//camera.end();
 
-	ofSetColor(255, 255, 255);
 	ofDrawBitmapString("fps " + ofToString(ofGetFrameRate(), 2)
 					   + " | useVA " + ofToString(drawVa), 20,20);	
 }
 			  
 void testApp::update(){
-	ps.update();
+	if(go) ps.update();
+	ps.checkBoundary(depth);
 	
 }
 
 void testApp::drawCeiling() {
 	
-
 	glDisable(GL_CULL_FACE);
 	ofMesh mesh;
-
-	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+	ofVbo vbo; 
 	
-	mesh.addColor(ofColor(255,255,255));
-	AddFace(mesh, ofVec3f(0, 0, 0), ofVec3f(0, 0, depth),  ofVec3f(ofGetWidth(), 0, depth),  ofVec3f(ofGetWidth(), 0, 0));
-	
-	/*
 	mesh.addVertex (ofVec3f(0, 0, 0));
 	mesh.addVertex (ofVec3f(0, 0, depth));
 	mesh.addVertex (ofVec3f(ofGetWidth(), 0, depth));
 	mesh.addVertex (ofVec3f(ofGetWidth(), 0, 0));
-	*/
-	mesh.draw();
-	glEnable(GL_CULL_FACE);
+	
+    vbo.setMesh(mesh, GL_STATIC_DRAW);
+	vbo.draw(GL_QUADS, 0, 4);	
 
 }
+
+void testApp:: drawRoom() {
+	glDisable(GL_CULL_FACE);
+	ofMesh mesh;
+	ofVbo vbo; 
+	
+	//floor
+
+	mesh.addVertex (ofVec3f(0, ofGetHeight(), 0));
+	mesh.addVertex (ofVec3f(0, ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), 0));
+	//right wall
+
+	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), 0));
+	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), 0, depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), 0, 0));
+	//left wall
+
+	mesh.addVertex (ofVec3f(0, ofGetHeight(), 0));
+	mesh.addVertex (ofVec3f(0, ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(0, 0, depth));
+	mesh.addVertex (ofVec3f(0, 0, 0));
+    //back wall	
+
+	mesh.addVertex (ofVec3f(0, ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), depth));
+	mesh.addVertex (ofVec3f(ofGetWidth(), 0, depth));
+	mesh.addVertex (ofVec3f(0, 0, depth));
+	
+    vbo.setMesh(mesh, GL_STATIC_DRAW);
+	vbo.draw(GL_QUADS, 0, 16);	
+	
+		
+	
+}	
 
 void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
 	mesh.addVertex(a);
@@ -123,14 +163,7 @@ void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d)
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-	switch (key) {
-		case '1':
-			drawVa= ! drawVa;
-			break;
-		default:
-			break;
-	}
-	
+	go = true;	
 }
 
 //--------------------------------------------------------------
@@ -160,6 +193,7 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
+	
 
 }
 

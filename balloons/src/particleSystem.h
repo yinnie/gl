@@ -23,6 +23,7 @@ public:
 	void drawVA();
 	void draw();
 	void drawVao();
+	void checkBoundary(int depth);
 	
 	vector<Particle> particles;
 	int numNewParticles;

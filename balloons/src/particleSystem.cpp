@@ -11,17 +11,16 @@
 
 void particleSystem::setup(int depth) {
 	
-	particles.resize(50);
+	particles.resize(30);
 	
 	for (int i = 0; i< particles.size(); i++) {
 		
 		Particle &p = particles[i];  
-		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight(),ofRandom(depth,0));
+		p.setup();  // initiate radius when drawing spheres FIRST 
+		p.pos.set(ofRandom(ofGetWidth()), ofGetHeight()-p.radius,ofRandom(depth,0));
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
-		p.setup();  // initiate radius when drawing spheres
-		
-		p.color.set(ofRandom(50,80), ofRandom(50,80), 30);
+		p.springForce.set(0,0,0);
 	
      }
 	
@@ -33,23 +32,16 @@ void particleSystem::setup(int depth) {
 void particleSystem:: update() {
 	
 	//update location of the particle    
-	
-	
-	//TO DO: BALLONS SHOULD HAVE VARIABLE SPEEDS AND GOING UP AT DIFFERENT HEIGHT LINKED TO THEIR SIZE
-	
-	
 	GLfloat positions[particles.size()][3];     //array to hold vertex data
 	for (int i = 0; i<particles.size(); i++) {
 		
 		Particle &p  = particles[i];
 		
 		p.force.set(0, 0, 0); //set the force to be zero at every loop
-		
-		if (p.pos.y > 0 + p.radius) {
-			
+					
 			float randomNumber = ofRandom(30);
 			if (randomNumber < 10) {
-				p.force.y+=0.0001; 
+				p.force.y+=0.00005; 
 			}
 			else if (randomNumber < 15 ){
 				p.force.y+=0.0005;
@@ -62,21 +54,21 @@ void particleSystem:: update() {
 				float t = ofGetElapsedTimef();
 				//p.force.x += noiseAmount * ofSignedNoise( t *noiseStep);
 				//p.force.x += ofNoise(t*0.001);
-				p.vel+=p.force;
-				p.pos-=p.vel;
-				
-			cout << p.pos.y << endl;
-		}
+			
 		
-		else if (p.pos.y <=0 + p.radius) {
-			p.pos.y = 0 + p.radius;
-			p.pos.z+=ofRandom(-0.2, 0.3);
-			//p.pos.x+=ofRandom(-0.1, 0.1);
+	    if (p.pos.y <=0 + p.radius) {
+			float damp = 0.4;
+			float k = 0.0001;
+			float dist = p.radius - p.pos.y;
+			p.springForce = ofVec3f(0,-1 * k * dist,0);
+		    p.vel = damp*(p.vel + p.springForce);
+		}
+			
+		p.vel+=p.force;
+		
+		p.pos-=p.vel;
 
-		}
-		
-	}
-	
+	}	
 	/*
 	//add new particles every frame
 	for (int i= 0; i < numNewParticles; i++) {
@@ -90,24 +82,57 @@ void particleSystem:: update() {
 			particles.pop_back();
 		}
 	}
-	*/
-	
+	*/	
 }
 
 void particleSystem:: draw() {
 	
 	for (int i = 0; i < particles.size(); i++) {
 	
-		ofSetColor(255, 255, 30, 255);
-		
+        
 		Particle & p = particles[i];
 		
-        ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);
+		ofSetColor(p.color.x, p.color.y, p.color.z);
 		
-	}
+		ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);	
 		
+	}		
 }
 
+void particleSystem:: checkBoundary(int depth) {
+    for (int i = 0; i < particles.size(); i++) {
+	
+		Particle & p = particles[i];
+		
+	if (p.pos.x-p.radius < 0 ) {
+		p.pos.x = p.radius;
+		p.vel.x *= -0.9;
+	}
+	else if (p.pos.x + p.radius > ofGetWidth()) {
+		p.pos.x = ofGetWidth() - p.radius;
+		p.vel.x *= -0.9;
+	}
+
+	if (p.pos.y-p.radius < 0 ) {
+		p.pos.y = p.radius;
+		p.vel.y *= -0.9;
+	}
+	else if (p.pos.y + p.radius > ofGetHeight()) {
+		p.pos.y = ofGetHeight() - p.radius;
+		p.vel.y *= -0.9;
+	}
+		
+	if (p.pos.z-p.radius > 0 ) {     //depth is negative 
+		p.pos.z = p.radius;
+		p.vel.z *= -0.9;
+	}
+	else if (p.pos.z + p.radius < depth) {    //depth is negative 
+		p.pos.z = ofGetHeight() + p.radius;
+		p.vel.z *= -0.9;
+	}
+	}
+	
+}
 
 void particleSystem:: drawVao() {
 	

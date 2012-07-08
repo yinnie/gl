@@ -21,10 +21,11 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		void drawCeiling();
-		
+	    void drawRoom();
+	
 	    particleSystem ps; 
 		ofImage img;
-	bool drawVa, drawVao, drawPoints, useShader;
+	bool drawVa, drawVao, drawPoints, useShader, go;
 		ofCamera camera;
 		ofVec3f center;
 		float depth;
