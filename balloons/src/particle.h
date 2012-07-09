@@ -24,12 +24,16 @@ class Particle {
 	ofVec3f force;
 	ofVec3f color;
 	ofVec3f bounceForce;     //damping/springy motion when the balloon hits the ceiling
-	int radius;             //also serves as mass
+
+	
+	ofVec3f springForce;     //when the balls are behaving like springs
+	ofVec3f restPos;        //rest position of the spring
 	
     float k;                //hook's law coefficient
 	float damp; 
-    ofVec3f springForce;     //when the balls are behaving like springs
-	ofVec3f restPos;        //rest position of the spring
+	int radius;             //also serves as mass
+
+
 };
 
 #endif

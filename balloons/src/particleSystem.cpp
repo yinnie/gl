@@ -26,7 +26,6 @@ void particleSystem::setup(int depth) {
      }		
 }
 
-
 void particleSystem:: update() {
 	
 	//update location of the particle    
@@ -74,7 +73,7 @@ void particleSystem:: update() {
 	//add new particles every frame
 	for (int i= 0; i < numNewParticles; i++) {
 		Particle &p = particles[i];
-		p.pos.set(ofRandom(ofGetWidth()),ofGetHeight(),ofRandom(depth,0));
+		p.pos.set(ofGetMouseX(),ofGetMouseY(),-200);
 		p.vel.set(0,0,0);
 		p.force.set(0,0,0);
 		particles.push_back(p);
@@ -83,7 +82,7 @@ void particleSystem:: update() {
 			particles.pop_back();
 		}
 	}
-	*/	
+	*/
 }
 
 void particleSystem:: draw() {
@@ -91,48 +90,55 @@ void particleSystem:: draw() {
 	for (int i = 0; i < particles.size(); i++) {
 	
 		Particle & p = particles[i];
-	    
-		//ofSetColor(255, 255,255);
-		//ofSetLineWidth(0.1);
-        //ofLine(p.pos.x, 0, p.pos.z, p.pos.x, length, p.pos.z);
-		
-		ofPushStyle();
 		ofSetColor(p.color.x, p.color.y, p.color.z);
 		ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);	
-		ofPopStyle();			
 	}		
 }
 
-
-
-void particleSystem::updateSpring() {
-	
-	dragOut();
+void particleSystem::updateSpring(int depth, ofVec3f center) {
 	
 	for (int i = 0; i < particles.size(); i++) {
 	    Particle &p = particles[i];
 		
-		float stretch = p.pos.y - p.restPos.y;
-		p.springForce.y = -1 * p.k * stretch;
-		p.vel.y = p.damp * (p.vel.y + p.springForce.y);
-		p.pos.y += p.vel.y;
-	}
-}
-
-
-void particleSystem:: dragOut() {
-	
-	for (int i = 0; i < particles.size(); i++) {
-		Particle &p = particles[i];
+		p.springForce.set(0, 0, 0); //set the force to be zero at every loop
 		
 		if (dragged) {
-			float displacement = ofMap(ofGetMouseY(), 0, ofGetHeight(), 0, 190);
-			float distToDrag = sqrt((ofGetMouseX()-p.pos.x)* (ofGetMouseX()-p.pos.x) );
-		    float offset = ofMap(distToDrag, 0, ofGetWidth()*10, displacement, 0);
-		    p.pos.y = p.restPos.y + displacement;
 			
+			ofVec3f mousePosition = ofVec3f (ofGetMouseX(), ofGetMouseY(), ofRandom(depth,0));
+			ofVec3f dragDirection = mousePosition - center;
+//			ofVec3f dir = dragDirection.normalize();
+//			float displacement = dragDirection.distance(p.restPos);
+//			ofVec3f offset = dir * displacement;
+			p.pos = p.restPos + dragDirection * 0.02;   
+			//times by a coefficient of 0.01 to reduce the actual force of mouse drag but keeping the direction and relative magnitude
+		
+			p.springForce = p.pos - p.restPos;          //the drag force
+			//p.springForce = dragDirection - p.pos;
+			float stretch = p.pos.distance(p.restPos);  //the drag magnitude
+			p.springForce = p.springForce * (p.k * stretch); 
+		
+		}
+		p.vel = p.damp * (p.vel + p.springForce);
+		p.pos += p.vel;
+	}
+	
+	/*
+	//add new particles every frame
+	if (mouseIsMoved) {
+		for (int i= 0; i < numNewParticles; i++) {
+			Particle &p = particles[i];
+			p.setup(depth);
+			p.pos.set(ofGetMouseX(),ofGetMouseY(),ofRandom(depth));
+			p.vel.set(0,0,0);
+			p.springForce.set(0,0,0);
+			particles.push_back(p);
+			
+			if (particles.size() > MAX_PARTICLES) {
+				particles.pop_back();
+			}
 		}
 	}
+	 */
 }
 
 void particleSystem:: checkBoundary(int depth) {

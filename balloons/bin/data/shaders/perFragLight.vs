@@ -1,8 +1,9 @@
 //per fragment lighting 
 
 uniform vec3 lightPosition;  //to be defined by user
+uniform float time;
 
-const float specContribution = 0.3;
+const float specContribution = 0.18;
 const float diffuseContribution = 1.0 - specContribution;   //floating numbers need to be everywhere
 
 varying float lightIntensity;
@@ -30,8 +31,9 @@ void main()
      spec = pow (spec, 16.0);
 
      lightIntensity = spec* specContribution + diffuse * diffuseContribution;
-     
+    
      gl_FrontColor = gl_Color;
-     gl_Position = ftransform();
+
+     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex + 10.0*(sin(time) + 1.0);
 
 }

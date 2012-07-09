@@ -53,16 +53,15 @@ void testApp::draw(){
 	if(useShader) {
 		shader.begin();
 		
-	    
 		shader.setUniform1f("time", ofGetElapsedTimef());
 		
 		shader.setUniformTexture("tex0", img, 1);
 		
-		shader.setUniform3f("lightPosition", 600, 300, -400);
-		shader.setUniform3f("BrickColor", 255, 0, 0);
-		shader.setUniform3f("MortarColor", 0, 0, 0);
-		shader.setUniform2f("BrickSize", 0.3, 0.15);
-		shader.setUniform2f("BrickPct", 0.9, 0.85);
+		shader.setUniform3f("lightPosition", ofGetWidth()/2, ofGetHeight()/2, depth/2);
+//		shader.setUniform3f("BrickColor", 255, 0, 0);
+//		shader.setUniform3f("MortarColor", 0, 0, 0);
+//		shader.setUniform2f("BrickSize", 0.3, 0.15);
+//		shader.setUniform2f("BrickPct", 0.9, 0.85);
 	}
 	
 	if (drawVao) { ps.drawVao(); }    //ps.vbo.draw()?? will work?
@@ -72,7 +71,15 @@ void testApp::draw(){
 			ps.draw();}
 		
     shader.end();
-    	
+    
+	ofSetColor(0);
+	ofSetLineWidth(5);
+	ofLine(0, ofGetHeight(), 0, 0, ofGetHeight(),depth);
+	ofLine(0, 0, depth, 0, ofGetHeight(),depth);
+	ofLine(0, ofGetHeight(), depth, ofGetWidth(), ofGetHeight(),depth);
+	ofLine(ofGetWidth(), 0, depth, ofGetWidth(), ofGetHeight(),depth);
+	ofLine(ofGetWidth(), ofGetHeight(), depth, ofGetWidth(), ofGetHeight(),0);
+	
 	ofSetColor(255, 255, 255);
 	drawCeiling();
 	
@@ -91,7 +98,7 @@ void testApp::update(){
 	
 	if(goBalloon) ps.update();
 
-	if (goSpring) { ps.updateSpring();  ps.dragOut(); }
+	if (goSpring) ps.updateSpring(depth, center);
 	
 	ps.checkBoundary(depth);
 	
@@ -118,13 +125,11 @@ void testApp:: drawRoom() {
 	ofVbo vbo; 
 	
 	//floor
-
 	mesh.addVertex (ofVec3f(0, ofGetHeight(), 0));
 	mesh.addVertex (ofVec3f(0, ofGetHeight(), depth));
 	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), depth));
 	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), 0));
 	//right wall
-
 	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), 0));
 	mesh.addVertex (ofVec3f(ofGetWidth(), ofGetHeight(), depth));
 	mesh.addVertex (ofVec3f(ofGetWidth(), 0, depth));
@@ -144,9 +149,6 @@ void testApp:: drawRoom() {
 	
     vbo.setMesh(mesh, GL_STATIC_DRAW);
 	vbo.draw(GL_QUADS, 0, 16);	
-	
-		
-	
 }	
 
 void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
@@ -191,7 +193,7 @@ void testApp::mouseMoved(int x, int y){
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-	
+		ps.mouseIsMoved = true;
 	
 }
 

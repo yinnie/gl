@@ -10,7 +10,7 @@
 #ifndef PARTICLES_PARTICLESYSTEM_h
 #define PARTICLES_PARTICLESYSTEM_h
 #include "particle.h"
-#define MAX_PARTICLES 100
+#define MAX_PARTICLES 500
 #include "ofMain.h"
 
 class particleSystem {
@@ -24,18 +24,21 @@ public:
 	void draw();
 	void drawVao();
 	void checkBoundary(int depth);
-	void dragOut();
-	void updateSpring();
+	void updateSpring(int depth, ofVec3f center);
 	
 	vector<Particle> particles;
-	int numNewParticles;
+
     ofImage img;
     float length;
-	bool dragged;
 	
 	GLuint vao;             //handle for vao
 	GLuint vbo[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
+
+	int numNewParticles;
 	
+	bool dragged;
+	bool mouseIsMoved;
+
 
 };
 
