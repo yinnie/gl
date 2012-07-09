@@ -22,16 +22,17 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		void drawCeiling();
 	    void drawRoom();
-	
-	    particleSystem ps; 
+		void drawCircle(int x, int y);
+		particleSystem ps; 
 		ofImage img;
-	bool drawVa, drawVao, drawPoints, useShader, go;
+		bool drawVa, drawVao, drawPoints, useShader, goBalloon, goSpring;
 		ofCamera camera;
+
 		ofVec3f center;
 		float depth;
-	ofShader shader;
-	void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c);
-	void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d);
+		ofShader shader;
+		void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c);
+		void AddFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d);
 	
 		
 };

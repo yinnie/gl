@@ -24,11 +24,15 @@ public:
 	void draw();
 	void drawVao();
 	void checkBoundary(int depth);
+	void dragOut();
+	void updateSpring();
 	
 	vector<Particle> particles;
 	int numNewParticles;
     ofImage img;
-    
+    float length;
+	bool dragged;
+	
 	GLuint vao;             //handle for vao
 	GLuint vbo[2];          //handle for two buffers..capitalise to differenciate from OF name conventions
 	

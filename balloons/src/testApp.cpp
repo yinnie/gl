@@ -5,15 +5,16 @@ void testApp::setup(){
 	
 	ofSetVerticalSync(TRUE);
     ofBackground(0, 0, 0);	
-    center = ofVec3f (ofGetWidth()/2, ofGetHeight()/2, 0);
-	depth = -600;
+    depth = -600;
+	center = ofVec3f (ofGetWidth()/2, ofGetHeight()/2, depth/2);
 	ps.setup(depth);
 	
     drawVa = false;
 	drawVao = false;
 	drawPoints = false;
 	useShader = true;
-	go = false;
+	goBalloon = false;
+	goSpring = true;
 	
 	glShadeModel(GL_SMOOTH);
     glFrontFace(GL_CCW);
@@ -71,16 +72,15 @@ void testApp::draw(){
 			ps.draw();}
 		
     shader.end();
-    
-	
+    	
 	ofSetColor(255, 255, 255);
-	
 	drawCeiling();
 	
 	ofSetColor(150);
 	drawRoom();
 		
 	glEnable(GL_CULL_FACE);
+	
 	//camera.end();
 
 	ofDrawBitmapString("fps " + ofToString(ofGetFrameRate(), 2)
@@ -88,7 +88,11 @@ void testApp::draw(){
 }
 			  
 void testApp::update(){
-	if(go) ps.update();
+	
+	if(goBalloon) ps.update();
+
+	if (goSpring) { ps.updateSpring();  ps.dragOut(); }
+	
 	ps.checkBoundary(depth);
 	
 }
@@ -106,7 +110,6 @@ void testApp::drawCeiling() {
 	
     vbo.setMesh(mesh, GL_STATIC_DRAW);
 	vbo.draw(GL_QUADS, 0, 4);	
-
 }
 
 void testApp:: drawRoom() {
@@ -163,7 +166,7 @@ void testApp::AddFace (ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d)
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-	go = true;	
+	goBalloon = true;	
 }
 
 //--------------------------------------------------------------
@@ -174,32 +177,33 @@ void testApp::keyReleased(int key){
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y){
 	
+	//camera movement
 	float rotateAmountX = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 360);
 	float rotateAmountY = ofMap(ofGetMouseY(), 0, ofGetHeight(), 0, 180);
-	ofVec3f furtherestPoint = ofVec3f (0, 200, -600);
+	ofVec3f furtherestPoint = ofVec3f (0, 300, depth);
 	ofVec3f directionToFurtherestPoint = furtherestPoint - center;
 	ofVec3f directionToFurtherestPointRotatedX = directionToFurtherestPoint.rotate(rotateAmountX, ofVec3f(0,1,0));
 	ofVec3f directionToFurtherestPointRotatedY = directionToFurtherestPoint.rotate(rotateAmountY, ofVec3f(1,0,0));
 	camera.setPosition(center + directionToFurtherestPointRotatedX + directionToFurtherestPointRotatedY);
-	camera.lookAt(center +400);
-	
-
+	camera.lookAt(center);	
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-
+	
+	
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-	
+	ps.dragged = true;
 
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-
+    ps.dragged = false;
 }
 
 //--------------------------------------------------------------
