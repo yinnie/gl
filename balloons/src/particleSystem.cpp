@@ -11,7 +11,7 @@
 
 void particleSystem::setup(int depth) {
 	
-	particles.resize(500);
+	particles.resize(10);
 	
 	numNewParticles = 1;
 	dragged = false;
@@ -91,7 +91,7 @@ void particleSystem:: draw() {
 	
 		Particle & p = particles[i];
 		ofSetColor(p.color.x, p.color.y, p.color.z);
-		ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);	
+		ofSphere(p.pos.x, p.pos.y, p.pos.z, p.radius);		
 	}		
 }
 
@@ -122,23 +122,23 @@ void particleSystem::updateSpring(int depth, ofVec3f center) {
 		p.pos += p.vel;
 	}
 	
-	/*
+	
 	//add new particles every frame
 	if (mouseIsMoved) {
 		for (int i= 0; i < numNewParticles; i++) {
-			Particle &p = particles[i];
-			p.setup(depth);
-			p.pos.set(ofGetMouseX(),ofGetMouseY(),ofRandom(depth));
-			p.vel.set(0,0,0);
-			p.springForce.set(0,0,0);
-			particles.push_back(p);
+			Particle *p = &particles[i];
+			p->setup(depth);
+			p->pos.set(ofGetMouseX(),ofGetMouseY(),ofRandom(depth));
+			p->vel.set(0,0,0);
+			p->springForce.set(0,0,0);
+			particles.push_back(*p);
 			
 			if (particles.size() > MAX_PARTICLES) {
 				particles.pop_back();
 			}
 		}
 	}
-	 */
+	 
 }
 
 void particleSystem:: checkBoundary(int depth) {
