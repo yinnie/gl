@@ -19,7 +19,7 @@
 
 #include "ofMain.h"
 
-#define TIMESTEP 0.5*0.1
+#define TIMESTEP 0.5*0.5
 
 class Particle {
 public:
@@ -30,12 +30,13 @@ public:
 	float mass;   //to do this properly we want particles to have masses
 	float damping;
 	
-	Particle() {
+	Particle () {    
+		pos = ofVec3f (0,0,0);             
 		mass = 1;
 		damping = 0.9;
-		pos = ofVec3f(0,0,0);
 		last_pos = pos;
 		vel = ofVec3f(0,0,0);
+		acc = ofVec3f(0,0,0);
 	}
 	
 	Particle (ofVec3f position) {    //pos is what defines a particle
@@ -46,10 +47,8 @@ public:
 		vel = ofVec3f(0,0,0);
 		acc = ofVec3f(0,0,0);
 	}
-	
-	
-	//what does this particle do? it receives forces
-	void applyForce(ofVec3f f) {
+		
+	void applyForce(ofVec3f f) {     
 		acc = f/mass;
         move();
 	}
@@ -57,15 +56,25 @@ public:
 	void move() {                              
 		
 		ofVec3f currentPos = pos;                               //saving current position before calculation
-		pos = pos + (pos-last_pos) + damping * acc*TIMESTEP;    //the new position....verlet integration
+		pos = pos + (pos-last_pos)* damping + acc*TIMESTEP;    //the new position....verlet integration
 	    last_pos = currentPos;  
-		acc = ofVec3f (0,0,0);
-        
+		
+        acc = ofVec3f (0,0,0);
 	}
 	
-	void draw() {
-		ofCircle(pos.x, pos.y, 3.5);
+   	bool insideMouseForce(float x, float y) {
+		
+		ofVec3f mousePos = ofVec3f(x, y, 0);
+
+		float d = pos.distance(mousePos);
+         if (d < 17) {
+			 return true;
+		 } else {
+			 return false;
+		}
+
 	}	
+	
 };
 
 class Spring {
@@ -88,18 +97,19 @@ public:
 	
 	void applySpring() {  
 	
-		ofVec3f dir = a->pos - b->pos;
+		ofVec3f dir = a->pos - b->pos;   
 		ofVec3f dirNormalized = dir.normalize();
 		float distance = a->pos.distance(b->pos);
-		ofVec3f springForce = -1 * dirNormalized * k * (distance - rest_length);
-		a->applyForce(springForce);
-		b->applyForce(-1 * springForce);
+		ofVec3f springForce = -1 * k * dirNormalized * (distance - rest_length);
+		a->pos += springForce*0.5;
+		b->pos += -1 * springForce*0.5;
 	}
 	
 	void draw() {
 		ofPoint p1, p2;
 		p1.set(a->pos.x, a->pos.y, a->pos.z);
 		p2.set(b->pos.x, b->pos.y, b->pos.z);
+		ofSetLineWidth(0.5);
 		ofLine(p1,p2);
 	}	
 };
@@ -124,7 +134,7 @@ public:
 			for (int i = 0; i<cols; i++) {	
 			    for (int j = 0; j<rows; j++) {
                      int label = i + cols*j;
-					ofVec3f thispos = ofVec3f (i*size, j*size, 0);
+					ofVec3f thispos = ofVec3f (130+i*size, 100+j*size, 0);
 				    particles[label] = Particle(thispos);               //???? is this a good way to initialise particles??
 				}
 			}		
@@ -170,36 +180,37 @@ public:
 	
 	void draw(){
 		ofSetColor(255, 255,255);
-				for (int i = 0; i < particles.size(); i++) {
-					particles[i].draw();
-				}
 		for (int i = 0; i<springs.size(); i++) {
 			springs[i].draw();
 		}
 	}
 		
 	void update() {
-		for (int i = 0; i<springs.size(); i++) {
-			cout << springs.size() << endl;
-			springs[i].applySpring();
-		}
+		
+		//for (int j = 0; j < 3; j++) {
+			for (int i = 0; i<springs.size(); i++) {
+				springs[i].applySpring();
+			}
+		//}
+		
 		for (int i = 0; i < particles.size(); i++) {
-			particles[i].move();
+			 particles[i].move();
 		}
 	}
+	
+	
+		
 	
     void reset() {
 		for (int i = 0; i<cols; i++) {	
 			for (int j = 0; j<rows; j++) {
 				int label = i + cols*j;
-				ofVec3f thispos = ofVec3f (i*size, j*size, 0);
+				ofVec3f thispos = ofVec3f (130+i*size, 100+j*size, 0);
 				particles[label] = Particle(thispos);               //???? is this a good way to initialise particles??
-				cout << "particles" << particles[i].pos <<endl;
+
 			}
-		}
-	
-	}
-	
+		}	
+	}	
 };
 
 
@@ -216,7 +227,9 @@ class testApp : public ofBaseApp{
 	Cloth cloth;
 	ofVec3f pull;
 	ofVec3f center;
-	bool mouseDrag;
+	float preMouseX;
+	float preMouseY;
+
 				
 };
 

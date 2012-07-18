@@ -2,19 +2,21 @@
 
 
 testApp::testApp()    //initializer list 
-:cloth(30,30,20){}
+:cloth(50,50,5){}
 
 void testApp::setup() {
 
 	ofBackground(0);
 	pull = ofVec3f(0,0,0);
 	center = ofVec3f(ofGetWidth()/2, ofGetHeight()/2, 0);
-	mouseDrag = false;
+	preMouseX = 0;
+	preMouseY = 0;
+
 }
 
 void testApp::update() {
-	cloth.applyForce(pull);
-	if(mouseDrag) cloth.update();
+
+	cloth.update(); 
 }
 
 void testApp:: draw() {
@@ -22,10 +24,22 @@ void testApp:: draw() {
 }
 	
 void testApp:: mouseDragged(int x, int y, int Button){
-	mouseDrag = true;
-	ofVec3f mousePosition = ofVec3f (ofGetMouseX(), ofGetMouseY(), 0);
-	ofVec3f dragDirection = mousePosition - center;
-	pull = dragDirection*0.001;   //simplified here...should normalized and use distances..
+    
+	
+	ofVec3f mousePos = ofVec3f (ofGetMouseX(), ofGetMouseY(),0);
+	ofVec3f dragDirection = mousePos - ofVec3f(preMouseX, preMouseY,0);
+	pull = dragDirection;   //simplified here...should normalized and use distances..
+	cout << pull << endl;
+	
+	for (int i = 0; i<cloth.particles.size(); i++) {
+		bool inside = cloth.particles[i].insideMouseForce(preMouseX, preMouseY);
+		if (inside) {
+			cloth.particles[i].applyForce(pull);
+		}
+	}	
+   
+	preMouseX = x;  //these must be at the end!! 
+	preMouseY = y;
 }
 		
 void testApp:: keyPressed(int key) {
