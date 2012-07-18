@@ -1,236 +1,172 @@
 /*
  study of cloth simulation...study of how particles moove with interconnections. study of verlet integration
- recourse: http://cg.alexandra.dk/2009/06/02/mosegaards-cloth-simulation-coding-tutorial/
- 
- a cloth is made of particles and forces between the particles. 
- The in-between forces are like springs that exerts contraining forces on both sides of that force. So the particles are pulling each other
- 
- We need: 
- a particle class
- a spring class
- a cloth class (made of a vector of particles and a vector of springs) 
- */
+ reference: http://cg.alexandra.dk/2009/06/02/mosegaards-cloth-simulation-coding-tutorial/
+*/
 
-
-#pragma once
-
-#ifndef _TEST_APP
-#define _TEST_APP
 
 #include "ofMain.h"
-
-#define TIMESTEP 0.5*0.5
+#define TIMESTEP 0.5*0.4
 
 class Particle {
 public:
 	ofVec3f pos;
-	ofVec3f vel;
-	ofVec3f acc;  //here we dont use force becoz force is now seen as external factor
+	ofVec3f acc;
 	ofVec3f last_pos;
-	float mass;   //to do this properly we want particles to have masses
+	float mass;
 	float damping;
 	
-	Particle () {    
-		pos = ofVec3f (0,0,0);             
+	Particle() {                 //default constructor
+		pos = ofVec3f(0,0,0);
+		acc = ofVec3f(0,0,0);
+		last_pos = pos;
 		mass = 1;
 		damping = 0.9;
-		last_pos = pos;
-		vel = ofVec3f(0,0,0);
-		acc = ofVec3f(0,0,0);
 	}
-	
-	Particle (ofVec3f position) {    //pos is what defines a particle
-		pos = position;              //pass in an argument and pass to pos. you can't set pos to a certain position without passing
+	Particle(ofVec3f position) : pos(position) {  //we are filling the grid of the cloth with particles..therefore it is position on the grid that 'constructs' a particle
+		acc = ofVec3f(0,0,0);
+		last_pos = pos;    //do not initialise last_pos as (0,0,0)..it makes the initial drag too big
 		mass = 1;
 		damping = 0.9;
-		last_pos = pos;
-		vel = ofVec3f(0,0,0);
-		acc = ofVec3f(0,0,0);
 	}
-		
-	void applyForce(ofVec3f f) {     
+	void applyForce(ofVec3f f) {
 		acc = f/mass;
-        move();
 	}
-	
-	void move() {                              
-		
-		ofVec3f currentPos = pos;                               //saving current position before calculation
-		pos = pos + (pos-last_pos)* damping + acc*TIMESTEP;    //the new position....verlet integration
-	    last_pos = currentPos;  
-		
-        acc = ofVec3f (0,0,0);
+	void move() {   //verlet integration
+		ofVec3f currentPos = pos;
+		pos = pos + damping*(pos - last_pos) + acc*TIMESTEP;
+		last_pos = currentPos;  //we used last_pos in calculation above..so cannot update it before the above calculation
+		acc = ofVec3f(0,0,0);  
 	}
-	
-   	bool insideMouseForce(float x, float y) {
-		
-		ofVec3f mousePos = ofVec3f(x, y, 0);
-
-		float d = pos.distance(mousePos);
-         if (d < 17) {
-			 return true;
-		 } else {
-			 return false;
+	bool withinMouseForce(float dist) {
+		if (dist < 10) {
+			return true;
+		} else {
+			return false;
 		}
-
-	}	
+	}
+		
 	
 };
 
 class Spring {
-public:	
+public:
 	Particle* a;
 	Particle* b;
-	
 	float rest_length;
 	float k;
 	
-	//separate the spring creation from the spring force application
-	
-	//spring creation is just to to pair two. since creating springs from two particles is like saying making a spring from these...it 
-	//means that probably you can just set that as part of the constructor of the spring itself. 
-	Spring(Particle* x, Particle* y) : a (x), b(y)   //!!! passing x and y into a and b
-	{
-		k = 0.1;
+	Spring(Particle* x, Particle *y) : a(x), b(y) {
 		rest_length = 5;
+		k = 0.1;
 	}
 	
-	void applySpring() {  
-	
-		ofVec3f dir = a->pos - b->pos;   
-		ofVec3f dirNormalized = dir.normalize();
+	void update() {
+		ofVec3f direction = a->pos - b->pos;
+		ofVec3f dirNormalised = direction.normalize();
 		float distance = a->pos.distance(b->pos);
-		ofVec3f springForce = -1 * k * dirNormalized * (distance - rest_length);
-		a->pos += springForce*0.5;
-		b->pos += -1 * springForce*0.5;
+		ofVec3f springForce = dirNormalised * k * (distance - rest_length);
+		a->pos += -1*springForce*0.5;
+		b->pos += springForce*0.5;
 	}
 	
-	void draw() {
-		ofPoint p1, p2;
-		p1.set(a->pos.x, a->pos.y, a->pos.z);
-		p2.set(b->pos.x, b->pos.y, b->pos.z);
-		ofSetLineWidth(0.5);
-		ofLine(p1,p2);
-	}	
 };
 
 class Cloth {
-public:	
+public:
 	vector<Particle> particles;
-	vector<Spring> springs;
-
-	int cols;
+	vector<Spring> springs; 
+	int cols; 
 	int rows;
 	int size;
 	
-	Cloth (int x, int y, int s) {
-		
-		cols = x;
-		rows = y;
-		size = s;
-			
-	    particles.resize(cols*rows);    //must use resize to initialise the vector arrays
-		
-			for (int i = 0; i<cols; i++) {	
-			    for (int j = 0; j<rows; j++) {
-                     int label = i + cols*j;
-					ofVec3f thispos = ofVec3f (130+i*size, 100+j*size, 0);
-				    particles[label] = Particle(thispos);               //???? is this a good way to initialise particles??
-				}
-			}		
-		createSprings();
+	Cloth (int x, int y, int s) : cols(x), rows(y), size(s) {
+		particles.resize(cols*rows);
+		fillParticles();
+		makeSprings();
 	}
 	
-	Particle* getParticle(int x, int y) {
-		return &particles[x+cols*y]; 
-	}
-	
-	void applyForce(ofVec3f f) {
-		//this force is received by all the particles..such as a pull..or wind (may require more complicated math).gravity..
-		for (int i = 0; i<particles.size(); i++) {
-			particles[i].applyForce(f);
-
-		}
-	}
-	
-	//all the springforces come into play..imagine this is not contingent on the fore..it is a constant thing that is always going...
-	//meaning that the force is determined by the distance...so when distance is at rest length..of course there is no force..
-	//otherwise there is always force..
-	
-	void createSprings() {
-		//who are those particle a and particle b for each spring? 
-		//in the spring class..in functin createSpring..u r saying no matter who are those particles..just do this..
-		//now you need to tell the program on whom are you going to apply this function
-		       
+	void fillParticles() {
 		for (int i = 0; i<cols; i++) {
-			for (int j = 0; j<rows; j++) {
-				//structural springs
-				if (i < cols -1) { 
-					Spring spring = Spring(getParticle(i,j), getParticle(i+1, j));
-				    springs.push_back(spring);                //springs are initiated one by one..so use push back
-				}
-					
-				if (j < rows -1) {
-					Spring spring =Spring(getParticle(i,j), getParticle(i, j+1)); 
-				    springs.push_back(spring);
-				}
-			 }				
+			for (int j =0; j< rows; j++) {
+				int lable = i+cols*j;
+				ofVec3f gridPos = ofVec3f (100+i*size, 100+j*size, 0);
+				particles[lable] = Particle (gridPos);
 			}
-	}
-	
-	void draw(){
-		ofSetColor(255, 255,255);
-		for (int i = 0; i<springs.size(); i++) {
-			springs[i].draw();
 		}
 	}
-		
+	
+	void makeSprings() {
+		for (int i = 0; i<cols; i++) {
+			for (int j =0; j< rows; j++) {
+				if (i < cols -1) {
+					Spring spring (getParticle(i, j), getParticle(i+1, j));
+					springs.push_back(spring);
+				}
+				if (j < rows -1) {
+					Spring spring (getParticle(i, j), getParticle(i, j+1));
+					springs.push_back(spring);
+				}
+				if (i < cols-1 && j < rows -1) {
+					Spring spring (getParticle(i, j), getParticle(i+1, j+1));
+					springs.push_back(spring);
+				}
+			}
+		}
+	}
+	
+	Particle* getParticle(int x, int y) { return &particles[x+cols*y];}
+	
 	void update() {
 		
-		//for (int j = 0; j < 3; j++) {
-			for (int i = 0; i<springs.size(); i++) {
-				springs[i].applySpring();
-			}
-		//}
-		
-		for (int i = 0; i < particles.size(); i++) {
-			 particles[i].move();
+	     for (int i = 0; i<springs.size(); i++) {
+			 springs[i].update();
+		 }
+		 
+		 for (int n = 0; n < 3; n++) {           //a few iterations for the verlet integration to work the best
+			 for (int i =0; i<particles.size(); i++) {
+				 particles[i].move();
+			 }
+			 
+		 }
+	
+	}
+	void draw() {
+		ofSetColor(231, 247, 181);
+		ofSetLineWidth(0.1);
+		for (int i = 0; i<springs.size(); i++) {
+	
+			ofPoint p1, p2;
+			p1.set (springs[i].a->pos);
+			p2.set(springs[i].b->pos);
+			ofLine(p1.x, p1.y, p2.x, p2.y);
 		}
 	}
 	
-	
+	void reset() {
+		fillParticles();
+		makeSprings();
+	}
 		
-	
-    void reset() {
-		for (int i = 0; i<cols; i++) {	
-			for (int j = 0; j<rows; j++) {
-				int label = i + cols*j;
-				ofVec3f thispos = ofVec3f (130+i*size, 100+j*size, 0);
-				particles[label] = Particle(thispos);               //???? is this a good way to initialise particles??
-
-			}
-		}	
-	}	
 };
 
 
-class testApp : public ofBaseApp{
-	
-	public:
-	    testApp();  
-		void setup();
-		void update();
-		void draw();
-		void keyPressed(int key);
-		void mouseDragged(int x, int y, int button);
+
+
+class testApp : public ofBaseApp {
+public: 
+	testApp();
+	void setup();
+	void draw();
+	void update();
+	void mouseDragged(int x, int y, int button);
+	void keyPressed(int key);
 	
 	Cloth cloth;
 	ofVec3f pull;
-	ofVec3f center;
 	float preMouseX;
 	float preMouseY;
-
-				
+	
 };
 
-#endif
+
+
