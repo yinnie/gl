@@ -52,7 +52,7 @@ void testApp::draw(){
 	
 	if(useShader) {
 		shader.begin();
-		
+				
 		shader.setUniform1f("time", ofGetElapsedTimef());
 		
 		shader.setUniformTexture("tex0", img, 1);

@@ -19,6 +19,7 @@ void testApp:: update() {
 
 void testApp:: draw() {
     cloth.draw();
+	
 }
 
 
